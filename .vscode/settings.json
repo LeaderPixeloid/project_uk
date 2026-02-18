@@ -10,9 +10,9 @@
       "server": "localhost",
       "port": 3306,
       "driver": "MySQL",
-      "database": "pelanggaran_siswa_rpl4",
       "name": "project",
       "username": "root",
+      "database": "poin_pelanggaran_siswa",
       "password": ""
     }
   ]
