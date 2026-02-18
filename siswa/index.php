@@ -3,9 +3,9 @@ define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/project_uk');
 
 include ROOTPATH . "/config/database.php";
 
-if ($_SESSION['role'] != 'admin') {
-    die("Akses ditolak");
-}
+// if ($_SESSION['role'] != 'Guru') {
+//     die("Akses ditolak");
+// }
 
 
 $result = mysqli_query($conn, "
@@ -16,32 +16,29 @@ $result = mysqli_query($conn, "
     JOIN program_keahlian ON kelas.id_program_keahlian = program_keahlian.id_program_keahlian 
     JOIN guru ON kelas.kode_guru = guru.kode_guru
 ");
+$title = "Data Siswa";
+require '../layout/header.php';
 ?>
+
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Data Siswa</title>
+    <!-- <title>Data Siswa</title> -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen">
-    <div class="bg-blue-700 text-white p-4 flex justify-between ">
-        <span class="font-semibold">Sistem Pelanggaran Siswa/📁 Data Siswa</span>
-        <a href="add.php"
-            class="bg-blue-600 text-white  rounded hover:bg-blue-700">
-            + Tambah Data Siswa
+    <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold">Data Siswa</h2>
+        <a href="../siswa/add.php"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            + Tambah Siswa
         </a>
-
-        <a href="../dashboard/index.php" class="block text-blue-600 mt-2">Kembali</a>
-        <a href="../auth/switch_account.php"
-            onclick="return confirm('Ganti akun sekarang?')"
-            class="hover:underline">
-            Switch Account
-        </a>
-        <a href="../auth/logout.php" class="hover:underline text-red-300">
-            Logout
+        <a href="../dashboard/index.php"
+            class="text-gray-600 hover:underline">
+            Kembali
         </a>
     </div>
 
@@ -100,17 +97,12 @@ $result = mysqli_query($conn, "
                                     Edit
                                 </a>
 
-                                <form action="/Poin_Pelanggaran_Siswa/process/siswa_process.php"
-                                    method="post"
-                                    class="inline"
-                                    onsubmit="return confirm('Hapus data <?= $row['nama_siswa'] ?>?')">
-                                    <input type="hidden" name="id" value="<?= $row['nis'] ?>">
-                                    <input type="hidden" name="action" value="delete">
-                                    <button type="submit"
-                                        class="text-red-600 hover:underline">
-                                        Hapus
-                                    </button>
-                                </form>
+                                <a href="delete.php?nis=<?= $row['nis'] ?>"
+                                    onclick="return confirm('PERINGATAN!\n\nMenghapus siswa akan menghapus:\n- Data pelanggaran\n- Data orang tua/wali\n\nYakin ingin melanjutkan?')"
+                                    class="text-red-600">
+                                    Delete
+                                </a>
+
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -123,3 +115,4 @@ $result = mysqli_query($conn, "
 </body>
 
 </html>
+<?php require '../layout/footer.php'; ?>

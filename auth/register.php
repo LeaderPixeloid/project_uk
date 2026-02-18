@@ -5,7 +5,7 @@ require '../config/database.php';
 // if ($_SESSION['role'] != 'admin') {
 //     die("Akses ditolak");
 // }
-  
+
 $success = "";
 
 if (isset($_POST['register'])) {
@@ -66,8 +66,8 @@ if (isset($_POST['register'])) {
             <select name="role" class="w-full p-2 border rounded" required>
                 <option value="">-- Pilih Role --</option>
                 <option value="admin">Admin</option>
-                <option value="guru">Guru / BK</option>
-                <option value="manajemen">Manajemen</option>
+                <option value="guru">Guru</option>
+                <option value="manajemen">BK</option>
             </select>
 
             <input type="text" name="jabatan" placeholder="Jabatan"

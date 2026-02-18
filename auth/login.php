@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
         $_SESSION['login_admin'] = true;
         $_SESSION['kode_guru'] = $user['kode_guru'];
         $_SESSION['username'] = $user['username'];
-        // $_SESSION['role'] = $user['role'];
+        $_SESSION['role'] = $user['role'];
 
         header("Location: ../dashboard/index.php");
         exit;

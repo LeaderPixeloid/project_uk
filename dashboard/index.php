@@ -1,6 +1,5 @@
 <?php
 session_start();
-// require '../config/auth_check.php';
 if (!isset($_SESSION['login_admin'])) {
     header("Location: ../auth/login.php");
     exit;
@@ -29,6 +28,7 @@ if (!isset($_SESSION['login_admin'])) {
                 Logout
             </a>
         </div>
+
     </div>
 
 
@@ -55,11 +55,79 @@ if (!isset($_SESSION['login_admin'])) {
                     class="bg-white p-4 rounded shadow hover:bg-gray-50">
                     ➕ Register User
                 </a>
-                <div class="bg-white p-4 rounded shadow">✏️ Input Pelanggaran</div>
-                <a href="../surat/pindah.php"
-                    class="bg-white p-4 rounded shadow hover:bg-gray-50 block">
-                    📄 Cetak Surat
-                </a>
+                <div class="relative">
+
+                    <!-- CARD INPUT DATA -->
+                    <a href="javascript:void(0)"
+                        onclick="toggleDropdown(event , 'inputDropdown')"
+                        class="bg-white p-4 rounded shadow hover:bg-gray-50 block cursor-pointer">
+                        ✏️ Input Data
+                    </a>
+
+                    <!-- DROPDOWN -->
+                    <div id="inputDropdown"
+                        class="dropdown-menu absolute mt-2 w-56 bg-white rounded shadow-lg border
+     opacity-0 scale-95 pointer-events-none
+     transition-all duration-200 ease-out origin-top">
+
+                        <a href="../guru/index.php"
+                            class="block px-4 py-3 hover:bg-gray-100 border-b">
+                            Data Guru
+                        </a>
+
+                        <a href="../siswa/index.php"
+                            class="block px-4 py-3 hover:bg-gray-100 border-b">
+                            Data Siswa
+                        </a>
+
+                        <a href="../pelanggaran/index.php"
+                            class="block px-4 py-3 hover:bg-gray-100">
+                            Data Jenis Pelanggaran
+                        </a>
+
+                        <a href="../kelas/index.php"
+                            class="block px-4 py-3 hover:bg-gray-100">
+                            Data Kelas
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="relative">
+
+                    <!-- CARD INPUT DATA -->
+                    <a href="javascript:void(0)"
+                        onclick="toggleDropdown(event, 'suratDropdown')"
+                        class="bg-white p-4 rounded shadow hover:bg-gray-50 block cursor-pointer">
+                        📄 Cetak Surat
+                    </a>
+
+                    <!-- DROPDOWN -->
+                    <div id="suratDropdown"
+                        class="dropdown-menu absolute mt-2 w-56 bg-white rounded shadow-lg border
+     opacity-0 scale-95 pointer-events-none
+     transition-all duration-200 ease-out origin-top">
+
+                        <a href="../surat/index.php"
+                            class="block px-4 py-3 hover:bg-gray-100 border-b">
+                            pernyataan siswa
+                        </a>
+
+                        <a href=""
+                            class="block px-4 py-3 hover:bg-gray-100 border-b">
+                            panggilan orang tua
+                        </a>
+
+                        <a href=""
+                            class="block px-4 py-3 hover:bg-gray-100">
+                            perjanjian siswa
+                        </a>
+                    </div>
+
+                </div>
 
 
             <?php elseif ($_SESSION['role'] == 'manajemen'): ?>
@@ -73,7 +141,35 @@ if (!isset($_SESSION['login_admin'])) {
 
         </div>
     </div>
+    <script>
+        function toggleDropdown(e, id) {
+            e.stopPropagation();
 
+            // Tutup semua dropdown dulu
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.add("opacity-0", "scale-95", "pointer-events-none");
+                menu.classList.remove("opacity-100", "scale-100");
+            });
+
+            const menu = document.getElementById(id);
+
+            if (menu.classList.contains("pointer-events-none")) {
+                menu.classList.remove("opacity-0", "scale-95", "pointer-events-none");
+                menu.classList.add("opacity-100", "scale-100");
+            } else {
+                menu.classList.add("opacity-0", "scale-95", "pointer-events-none");
+                menu.classList.remove("opacity-100", "scale-100");
+            }
+        }
+
+        // Klik luar → tutup semua
+        document.addEventListener("click", function() {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.add("opacity-0", "scale-95", "pointer-events-none");
+                menu.classList.remove("opacity-100", "scale-100");
+            });
+        });
+    </script>
 </body>
 
 </html>

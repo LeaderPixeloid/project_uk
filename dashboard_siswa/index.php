@@ -99,6 +99,7 @@ $riwayat = mysqli_query($conn, "
                 Logout
             </a>
         </div>
+        
 
         <!-- DATA SISWA -->
         <div class="bg-white p-6 rounded shadow">
@@ -164,3 +165,4 @@ $riwayat = mysqli_query($conn, "
 </body>
 
 </html>
+<?php require '../layout/footer.php'; ?>

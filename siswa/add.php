@@ -38,7 +38,8 @@ if (isset($_POST['simpan'])) {
 
     header("Location: index.php");
 }
-
+$title = "Add Data Siswa";
+require '../layout/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -126,3 +127,5 @@ if (isset($_POST['simpan'])) {
 </body>
 
 </html>
+
+<?php require '../layout/footer.php'; ?>
