@@ -61,7 +61,7 @@ $base_url = "http://localhost/project_uk/";
                     </div>
                 </div>
 
-                <a href="<?= $base_url ?>auth/logout.php"
+                <a href="<?= $base_url ?>modul/auth/logout.php"
                     class="hover:underline text-red-300">
                     Logout
                 </a>

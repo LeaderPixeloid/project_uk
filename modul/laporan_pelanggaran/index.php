@@ -3,8 +3,6 @@ require '../config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 ?>
 
-
-
 <div class="bg-white p-6 rounded-lg shadow mt-6">
     <h3 class="text-xl font-bold mb-4">Laporan Riwayat Pelanggaran</h3>
     <table class="w-full border-collapse">
