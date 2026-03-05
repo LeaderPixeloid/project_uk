@@ -1,7 +1,7 @@
 <?php
 session_start();
-require $_SERVER['DOCUMENT_ROOT'] . '../config/database.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/modul/asset/layout/header.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/modul/config/database.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 
 $siswa = null;
 $error = "";
@@ -89,4 +89,4 @@ $title = "surat panggilan ortu"
 </body>
 
 </html>
-<?php require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/modul/asset/layout/footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/footer.php'; ?>

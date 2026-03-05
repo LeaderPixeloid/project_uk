@@ -2,7 +2,7 @@
 session_start();
 require '../config/database.php';
 // Cara ini lebih aman karena mencari dari folder utama project
-require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/layout/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 
 if (!isset($_SESSION['login_admin'])) {
     header("Location: ../auth/login.php");
@@ -38,7 +38,6 @@ $data = mysqli_query($conn, "
 ");
 
 $title = "Data Kelas";
-require '../layout/header.php';
 ?>
 
 <!DOCTYPE html>

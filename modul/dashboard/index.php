@@ -1,7 +1,8 @@
 <?php
 session_start();
+$base_url = "http://localhost/project_uk/";
 if (!isset($_SESSION['login_admin'])) {
-    header("Location: ../auth/login.php");
+    header("Location: " . $base_url . "login.php");
     exit;
 }
 ?>

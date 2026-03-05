@@ -37,7 +37,7 @@ $title = "Data Siswa";
             class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             + Tambah Siswa
         </a>
-        <a href="../../dashboard/index.php"
+        <a href="../dashboard/index.php"
             class="text-gray-600 hover:underline">
             Kembali
         </a>

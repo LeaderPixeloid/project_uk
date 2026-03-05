@@ -1,6 +1,6 @@
 <?php
-require '/project_uk/modul/config/database.php';
-require '/project_uk/modul/config/auth_check.php';
+require '../config/database.php';
+require '../config/auth_check.php';
 
 if ($_SESSION['role'] != 'Guru') {
     die("Akses ditolak");

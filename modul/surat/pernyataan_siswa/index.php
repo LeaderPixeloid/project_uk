@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require $_SERVER['DOCUMENT_ROOT'] . '../config/database.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/modul/config/database.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 
 

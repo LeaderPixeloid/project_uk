@@ -2,7 +2,7 @@
 session_start();
 require '../config/database.php';
 // Cara ini lebih aman karena mencari dari folder utama project
-require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/layout/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 
 
 if (!isset($_SESSION['login_admin'])) {
@@ -12,7 +12,6 @@ if (!isset($_SESSION['login_admin'])) {
 
 $data = mysqli_query($conn, "SELECT * FROM jenis_pelanggaran ORDER BY id_jenis_pelanggaran ASC");
 $title = "Data Pelanggaran";
-require '../../asset/layout/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +28,7 @@ require '../../asset/layout/header.php';
 
         <div class="flex justify-between mb-3">
             <h2 class="text-xl font-bold">Jenis Pelanggaran</h2>
-            <a href="../../dashboard/index.php" class="bg-yellow-600 text-white px-4 py-2 rounded">
+            <a href="../dashboard/index.php" class="bg-yellow-600 text-white px-4 py-2 rounded">
                 Kembali
             </a>
             <a href="../pelanggaran/add.php" class="bg-blue-600 text-white px-4 py-2 rounded">

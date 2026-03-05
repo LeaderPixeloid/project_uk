@@ -1,6 +1,6 @@
 <?php
 require '../config/database.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/layout/header.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 
 
 if (isset($_POST['simpan'])) {
@@ -43,7 +43,6 @@ if (isset($_POST['simpan'])) {
     header("Location: index.php");
 }
 $title = "Add Data Siswa";
-require '../layout/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -131,4 +130,4 @@ require '../layout/header.php';
 
 </html>
 
-<?php require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/layout/footer.php';
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/footer.php';
