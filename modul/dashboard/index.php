@@ -133,7 +133,7 @@ if (!isset($_SESSION['login_admin'])) {
                     </div>
 
                 </div>
-                <a href="../laporan_pelanggaran/index.php" class="bg-white p-4 rounded shadow">📊 Laporan</a>
+                <a href="../laporan_surat/index.php" class="bg-white p-4 rounded shadow">📊 Laporan</a>
                 <a href="../Entri_pelanggaran/index.php" class="bg-white p-4 rounded shadow">✏️ Entri Pelanggaran</a>
 
 

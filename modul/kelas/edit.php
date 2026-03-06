@@ -3,6 +3,7 @@
 
 session_start();
 require '../config/database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 
 if (!isset($_SESSION['login_admin'])) {
     header("Location: ../auth/login.php");
@@ -46,7 +47,6 @@ if (isset($_POST['update'])) {
     exit;
 }
 $title = "Edit Data Kelas";
-require '../layout/header.php';
 
 ?>
 
@@ -105,4 +105,4 @@ require '../layout/header.php';
 </body>
 
 </html>
-<?php require '../layout/footer.php'; ?>
+<?php require '../../asset/layout/footer.php'; ?>

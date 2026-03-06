@@ -1,5 +1,3 @@
-
-
 <?php
 session_start();
 require_once '../config/database.php';
@@ -29,12 +27,12 @@ require_once '../../asset/layout/header.php';
         </div>
 
         <form action="proses.php" method="POST" class="p-8 space-y-6">
-            
+
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih Siswa (NIS)</label>
                 <select name="nis" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                     <option value="">-- Cari Nama atau NIS --</option>
-                    <?php while($s = mysqli_fetch_assoc($siswa)): ?>
+                    <?php while ($s = mysqli_fetch_assoc($siswa)): ?>
                         <option value="<?= $s['nis'] ?>"><?= $s['nis'] ?> - <?= $s['nama_siswa'] ?></option>
                     <?php endwhile; ?>
                 </select>
@@ -44,7 +42,7 @@ require_once '../../asset/layout/header.php';
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Jenis Pelanggaran</label>
                 <select name="id_jenis_pelanggaran" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                     <option value="">-- Pilih Jenis Pelanggaran --</option>
-                    <?php while($jp = mysqli_fetch_assoc($jenis_p)): ?>
+                    <?php while ($jp = mysqli_fetch_assoc($jenis_p)): ?>
                         <option value="<?= $jp['id_jenis_pelanggaran'] ?>">
                             <?= $jp['jenis'] ?> (<?= $jp['poin'] ?> Poin)
                         </option>
@@ -54,7 +52,7 @@ require_once '../../asset/layout/header.php';
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Keterangan Kejadian</label>
-                <textarea name="keterangan" rows="4" placeholder="Contoh: Siswa melompati pagar sekolah pada jam istirahat..." 
+                <textarea name="keterangan" rows="4" placeholder="Contoh: Siswa melompati pagar sekolah pada jam istirahat..."
                     class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
             </div>
 
