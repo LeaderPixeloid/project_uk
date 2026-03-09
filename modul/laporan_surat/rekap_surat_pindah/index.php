@@ -1,5 +1,5 @@
 <?php
-require_once '../../config/auth_check.php'; // Proteksi login & timeout
+// require_once '../../config/auth_check.php'; // Proteksi login & timeout
 require_once '../../config/database.php';   // Koneksi database
 
 // 1. Ambil data tingkat untuk filter

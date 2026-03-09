@@ -1,10 +1,10 @@
 <?php
 require '../config/database.php';
 
-// 1. Ambil data tingkat secara UNIK (Hanya X, XI, XII) untuk pilihan filter
+// 1. Ambil data tingkat secara UNIK
 $list_tingkat = mysqli_query($conn, "SELECT * FROM tingkat ORDER BY tingkat ASC");
 
-// 2. Tangkap filter dari URL (Gunakan nama 'tingkat' agar sesuai dengan logika pilihanmu)
+// 2. Tangkap filter dari URL
 $filter_tingkat = $_GET['tingkat'] ?? '';
 
 // 3. Bangun Query SQL Utama
@@ -24,97 +24,95 @@ $sql = "SELECT
         JOIN tingkat ON kelas.id_tingkat = tingkat.id_tingkat 
         JOIN program_keahlian ON kelas.id_program_keahlian = program_keahlian.id_program_keahlian";
 
-// Tambahkan filter jika user memilih tingkat tertentu (X/XI/XII)
 if ($filter_tingkat != '') {
     $sql .= " WHERE tingkat.id_tingkat = '" . mysqli_real_escape_string($conn, $filter_tingkat) . "'";
 }
 
-// Urutan berdasarkan rombel seperti permintaanmu
-$sql .= " ORDER BY kelas.rombel ASC";
+$sql .= " ORDER BY pelanggaran_siswa.tanggal DESC"; // Diubah ke tanggal terbaru biar lebih masuk akal buat laporan
 $res = mysqli_query($conn, $sql);
-
-if (!$res) {
-    die("Query Error: " . mysqli_error($conn));
-}
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Laporan Riwayat Pelanggaran</h2>
+        <p class="text-gray-600 text-sm">Rekapitulasi data pelanggaran siswa berdasarkan kriteria yang dipilih.</p>
+    </div>
 
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <h3 class="text-2xl font-bold text-gray-800 tracking-tight">Laporan Riwayat Pelanggaran</h3>
+    <div class="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="p-4 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
 
-            <form method="GET" class="flex flex-wrap items-center gap-2">
-                <a href="../laporan_surat/index.php"
-                    class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Kembali
+            <div class="flex gap-2">
+                <a href="../laporan_surat/index.php" class="bg-gray-100 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-200">
+                    ← Kembali
                 </a>
+                <button onclick="window.print()" class="bg-green-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-green-700">
+                    Cetak Laporan
+                </button>
+            </div>
 
-                <select name="tingkat" class="p-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">
+            <form method="GET" class="flex items-center gap-2">
+                <select name="tingkat" class="border border-gray-300 p-2 rounded text-sm focus:border-blue-500 outline-none">
                     <option value="">-- Semua Tingkat --</option>
                     <?php while ($t = mysqli_fetch_assoc($list_tingkat)): ?>
                         <option value="<?= $t['id_tingkat'] ?>" <?= $filter_tingkat == $t['id_tingkat'] ? 'selected' : '' ?>>
-                            Kelas <?= htmlspecialchars($t['tingkat']) ?>
+                            Kelas <?= $t['tingkat'] ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700">
                     Filter
                 </button>
 
                 <?php if ($filter_tingkat != ''): ?>
-                    <a href="index.php" class="text-red-500 text-sm hover:underline ml-2">Reset</a>
+                    <a href="index.php" class="text-xs text-red-500 hover:underline italic">Hapus Filter</a>
                 <?php endif; ?>
             </form>
         </div>
 
-        <div class="overflow-x-auto border rounded-lg">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-gray-100 border-b">
-                    <tr>
-                        <th class="p-4 font-bold text-gray-700 text-center w-12">No</th>
-                        <th class="p-4 font-bold text-gray-700">Tanggal</th>
-                        <th class="p-4 font-bold text-gray-700">Nama Siswa</th>
-                        <th class="p-4 font-bold text-gray-700 text-center">Kelas</th>
-                        <th class="p-4 font-bold text-gray-700">Pelanggaran</th>
-                        <th class="p-4 font-bold text-gray-700 text-center">Poin</th>
-                        <th class="p-4 font-bold text-gray-700">Keterangan</th>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="bg-gray-50 border-b border-gray-200">
+                        <th class="p-4 text-xs font-bold uppercase text-gray-500 text-center">No</th>
+                        <th class="p-4 text-xs font-bold uppercase text-gray-500">Waktu</th>
+                        <th class="p-4 text-xs font-bold uppercase text-gray-500">Siswa / NIS</th>
+                        <th class="p-4 text-xs font-bold uppercase text-gray-500">Kelas</th>
+                        <th class="p-4 text-xs font-bold uppercase text-gray-500">Pelanggaran</th>
+                        <th class="p-4 text-xs font-bold uppercase text-gray-500 text-center">Poin</th>
+                        <th class="p-4 text-xs font-bold uppercase text-gray-500">Keterangan</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody class="divide-y divide-gray-100 text-sm">
                     <?php
                     $no = 1;
                     if (mysqli_num_rows($res) > 0):
                         while ($row = mysqli_fetch_assoc($res)):
                     ?>
-                            <tr class="hover:bg-blue-50 transition-colors">
-                                <td class="p-4 text-center text-gray-500"><?= $no++ ?></td>
-                                <td class="p-4 text-sm text-gray-600 whitespace-nowrap">
-                                    <span class="block font-medium"><?= date('d/m/Y', strtotime($row['tanggal'])) ?></span>
-                                    <span class="text-xs text-gray-400"><?= date('H:i', strtotime($row['tanggal'])) ?> WIB</span>
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-4 text-center text-gray-400"><?= $no++ ?></td>
+                                <td class="p-4">
+                                    <div class="font-medium"><?= date('d/m/Y', strtotime($row['tanggal'])) ?></div>
+                                    <div class="text-xs text-gray-400"><?= date('H:i', strtotime($row['tanggal'])) ?> WIB</div>
                                 </td>
                                 <td class="p-4">
-                                    <span class="font-semibold text-gray-800"><?= htmlspecialchars($row['nama_siswa']) ?></span>
-                                    <span class="block text-xs text-gray-400">NIS: <?= $row['nis'] ?></span>
+                                    <div class="font-bold text-gray-800"><?= htmlspecialchars($row['nama_siswa']) ?></div>
+                                    <div class="text-xs text-gray-500"><?= $row['nis'] ?></div>
+                                </td>
+                                <td class="p-4 font-medium text-gray-700">
+                                    <?= $row['tingkat'] ?> <?= $row['program_keahlian'] ?> <?= $row['rombel'] ?>
+                                </td>
+                                <td class="p-4 text-gray-600">
+                                    <?= $row['jenis'] ?>
                                 </td>
                                 <td class="p-4 text-center">
-                                    <span class="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-1 rounded text-xs font-medium">
-                                        <?= htmlspecialchars($row['tingkat'] . ' ' . $row['program_keahlian'] . ' ' . $row['rombel']) ?>
-                                    </span>
-                                </td>
-                                <td class="p-4 text-gray-700 italic"><?= $row['jenis'] ?></td>
-                                <td class="p-4 text-center">
-                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-extrabold shadow-sm">
+                                    <span class="bg-red-50 text-red-600 px-2 py-1 rounded font-bold border border-red-100">
                                         <?= $row['poin'] ?>
                                     </span>
                                 </td>
-                                <td class="p-4 text-sm text-gray-500 max-w-xs truncate" title="<?= $row['keterangan'] ?>">
+                                <td class="p-4 text-gray-500 italic">
                                     <?= $row['keterangan'] ?: '-' ?>
                                 </td>
                             </tr>
@@ -123,7 +121,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
                     else:
                         ?>
                         <tr>
-                            <td colspan="7" class="p-10 text-center text-gray-400 italic">Data tidak ditemukan untuk kriteria ini.</td>
+                            <td colspan="7" class="p-10 text-center text-gray-400">
+                                Belum ada data riwayat pelanggaran untuk ditampilkan.
+                            </td>
                         </tr>
                     <?php endif; ?>
                 </tbody>

@@ -74,7 +74,7 @@ $waka_kesiswaan = $row_waka['nama_pengguna'] ?? "(Nama Waka Kesiswaan)";
 </div>
 
 <div class="page">
-    <img src="../../asset/gamba/kop.jpg" width="100%" alt="Kop Surat">
+    <img src="../../asset/gambar/kop.jpg" width="100%" alt="Kop Surat">
 
     <table style="width: 100%; margin-top: 20px;">
         <tr><td width="80">No.</td><td>: <?= $no_surat ?>/SMK TI/BG/<?= $bulan_romawi ?>/<?= date("Y") ?></td></tr>

@@ -1,110 +1,65 @@
 <?php
-// 1. Memulai session untuk memastikan status login user
 session_start();
-
-// 2. Menghubungkan ke database agar bisa mengirim data (INSERT)
 require '../config/database.php';
-// Cara ini lebih aman karena mencari dari folder utama project
-require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/layout/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/header.php';
 
-
-// 3. KEAMANAN: Cek apakah user adalah Admin.
-// Jika tidak login sebagai admin, dilarang masuk ke halaman tambah data ini.
 if (!isset($_SESSION['login_admin'])) {
     header("Location: ../auth/login.php");
     exit;
 }
 
-// Menyiapkan variabel kosong untuk menampung pesan error jika input tidak valid
 $error = "";
-
-// 4. CEK TOMBOL: Memeriksa apakah user sudah menekan tombol bertipe submit dengan name 'simpan'
 if (isset($_POST['simpan'])) {
-
-    // 5. AMBIL DATA FORM: Mengambil inputan dari user melalui metode POST
-    // trim() digunakan untuk menghapus spasi kosong di awal/akhir tulisan agar data bersih
-    $jenis = trim($_POST['jenis']);
-    // (int) adalah type casting untuk memastikan data yang masuk adalah angka bulat
+    $jenis = mysqli_real_escape_string($conn, trim($_POST['jenis']));
     $poin  = (int) $_POST['poin'];
 
-    // 6. VALIDASI: Cek apakah inputan sudah sesuai aturan
-    // Nama pelanggaran tidak boleh kosong, dan poin minimal harus angka 1 ke atas
     if ($jenis == "" || $poin <= 0) {
-        $error = "Jenis dan poin wajib diisi dengan benar!";
+        $error = "Data tidak valid. Silakan periksa kembali.";
     } else {
-
-        // 7. QUERY INSERT: Perintah SQL untuk memasukkan data baru ke tabel 'jenis_pelanggaran'
-        // Kolom id_jenis_pelanggaran biasanya Auto Increment, jadi tidak perlu ditulis di sini
-        mysqli_query($conn, "
-            INSERT INTO jenis_pelanggaran (jenis, poin)
-            VALUES ('$jenis', '$poin')
-        ");
-
-        // 8. REDIRECT: Setelah berhasil menyimpan ke database, pindahkan user kembali ke halaman utama (index)
+        mysqli_query($conn, "INSERT INTO jenis_pelanggaran (jenis, poin) VALUES ('$jenis', '$poin')");
         header("Location: index.php");
         exit;
     }
 }
-
-// 9. LAYOUT: Mengatur judul tab browser dan memanggil file header (atas)
-$title = "Add Data Pelanggaran";
-require '../asset/layout/header.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-
-<head>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-100 p-6">
-
-    <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
-
-        <h2 class="text-xl font-bold mb-4 text-gray-800">Tambah Jenis Pelanggaran</h2>
+<div class="max-w-md mx-auto px-4 py-20">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+        <div class="p-8 bg-slate-900 text-white">
+            <h2 class="text-xl font-bold">Kategori Baru</h2>
+            <p class="text-slate-400 text-xs mt-1">Tambahkan jenis pelanggaran baru ke sistem.</p>
+        </div>
 
         <?php if ($error): ?>
-            <div class="bg-red-100 text-red-600 p-2 mb-4 rounded border border-red-200 text-sm">
-                <?= $error ?>
+            <div class="mx-8 mt-6 p-4 bg-rose-50 border border-rose-100 text-rose-600 text-xs rounded-xl font-bold">
+                ⚠️ <?= $error ?>
             </div>
         <?php endif; ?>
 
-        <form method="POST" class="space-y-4">
-
+        <form method="POST" class="p-8 space-y-6">
             <div>
-                <label class="block text-sm font-medium mb-1 text-gray-700">Nama Pelanggaran</label>
-                <input type="text" name="jenis"
-                    placeholder="Contoh: Terlambat, Rambut Panjang"
-                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
-                    required>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Nama Pelanggaran</label>
+                <input type="text" name="jenis" placeholder="Contoh: Tidak Memakai Atribut"
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500 outline-none transition-all font-medium" required autofocus>
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-1 text-gray-700">Poin</label>
-                <input type="number" name="poin"
-                    placeholder="Masukkan angka poin"
-                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
-                    min="1"
-                    required>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Bobot Poin</label>
+                <input type="number" name="poin" placeholder="10 - 100"
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500 outline-none transition-all font-bold text-rose-600" min="1" required>
+                <p class="text-[10px] text-slate-400 mt-2 italic">*Poin akan diakumulasikan pada kartu skor siswa.</p>
             </div>
 
-            <div class="flex justify-between items-center pt-2">
-                <a href="index.php" class="text-gray-500 hover:text-gray-700 text-sm">Kembali</a>
-
-                <button name="simpan"
-                    class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 shadow-md transition duration-200">
-                    Simpan Data
+            <div class="pt-4 flex flex-col gap-3">
+                <button name="simpan" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 shadow-xl transition-all active:scale-95">
+                    Simpan Kategori
                 </button>
+                <a href="index.php" class="text-center text-sm font-bold text-slate-400 py-2 hover:text-slate-600 transition">
+                    Batalkan
+                </a>
             </div>
-
         </form>
     </div>
+</div>
 
-</body>
-
-</html>
-
-<?php
-// 10. Memanggil file footer untuk menutup tag HTML dan layout
-require '../asset/layout/footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'] . '/project_uk/asset/layout/footer.php'; ?>

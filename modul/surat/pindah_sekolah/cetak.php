@@ -144,7 +144,7 @@ $row = mysqli_fetch_assoc($q_siswa);
         <button onclick="window.close()" style="padding: 10px 20px; cursor: pointer;">Tutup</button>
     </div>
     <div class="page">
-        <img src="../../asset/gamba/kop.jpg" class=" header-img">
+        <img src="../../asset/gambar/kop.jpg" class=" header-img">
 
         <div class="title-block">
             <p class="title-text">KETERANGAN PINDAH SEKOLAH</p>

@@ -144,7 +144,7 @@ $siswa = mysqli_fetch_assoc($q);
 </div>
 
     <div class="page">
-        <img src="../../asset/gamba/kop.jpg" class="header-img">
+        <img src="../../asset/gambar/kop.jpg" class="header-img">
 
         <div class="title">SURAT PERNYATAAN ORANG TUA / WALI</div>
 

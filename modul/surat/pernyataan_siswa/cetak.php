@@ -138,7 +138,7 @@ require '../../layout/header.php';
 <body>
 
     <!-- KOP SURAT -->
-    <img src="../../asset/gamba/kop.jpg" width="100%">
+    <img src="../../asset/gambar/kop.jpg" width="100%">
 
     <div class="title">
         SURAT PERNYATAAN SISWA
